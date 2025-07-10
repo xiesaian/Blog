@@ -72,8 +72,12 @@
         that.currentPatrolId = resPatrolRecord.data
       })
       await that.loadBottomImages(that.currentPlan)
-      const playNextVideo = async () => {
-        if (that.currentIndex >= row.childrens.length) {
+      that.playNextVideo1(row,index) // 开始播放第一个视频
+      this.toggleRightPanel()
+},
+async playNextVideo1(row,index){
+      var that = this;
+      if (that.currentIndex >= row.childrens.length) {
           console.log('所有视频播放完成')
           // for (let i = 0; i < that.currentIndex; i++) {
           //   that.bottomImages[i].status = '巡检已完成'
@@ -196,7 +200,7 @@
                 // })
                 // 设置10秒后销毁当前视频并播放下一个
 
-                that.timeoutId = setTimeout(() => {
+                that.timeoutId1 = setTimeout(() => {
                   that.$refs['myVideo'].pause()
                   that.getResult2List()
                   that.currentIndex++
@@ -236,7 +240,8 @@
                       // alert(resPatrolDetailRecord.data)
                     }
                   )
-                  playNextVideo() // 递归调用播放下一个视频
+                  // playNextVideo() // 递归调用播放下一个视频
+                  that.playNextVideo1(that.myRow,that.checkIndex);
                 }, 10000)
               }
               // 替换开始
@@ -467,7 +472,7 @@
               // 错误处理
               console.info('拉流失败1:', err)
               that.currentUrl = ''
-              that.timeoutId = setTimeout(() => {
+              that.timeoutId1 = setTimeout(() => {
                 that.$refs['myVideo'].pause()
                 that.getResult2List()
                 that.currentIndex++
@@ -759,7 +764,7 @@
                 // })
                 // 设置10秒后销毁当前视频并播放下一个
 
-                that.timeoutId = setTimeout(() => {
+                that.timeoutId1 = setTimeout(() => {
                   that.$refs['myVideo'].pause()
                   that.getResult2List()
                   that.currentIndex++
@@ -1036,7 +1041,7 @@
               // 错误处理
               console.info('拉流失败2:', err)
               that.currentUrl = ''
-              that.timeoutId = setTimeout(() => {
+              that.timeoutId1 = setTimeout(() => {
                 that.$refs['myVideo'].pause()
                 that.getResult2List()
                 that.currentIndex++
@@ -1202,7 +1207,4 @@
               }
             })
         }
-      }
-      playNextVideo() // 开始播放第一个视频
-      this.toggleRightPanel()
     },
